@@ -63,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    //扣库存时，多线程会出现”超卖“的问题，使用redis分布式锁解决
     public void decreaseStock(List<CartDTO> cartDTOList) {
         for (CartDTO cartDTO: cartDTOList) {
             ProductInfo productInfo = repository.findOne(cartDTO.getProductId());
